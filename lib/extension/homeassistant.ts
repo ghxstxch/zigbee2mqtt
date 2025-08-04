@@ -554,7 +554,7 @@ export class HomeAssistant extends Extension {
                 const state = (firstExpose as zhc.Switch).features.filter(isBinaryExpose).find((f) => f.name === "state");
                 assert(state, `Switch expose must have a 'state'`);
                 const property = getProperty(state);
-                const discoveryEntry: DiscoveryEntry = {
+                Entry: DiscoveryEntry = {
                     type: "switch",
                     object_id: endpoint ? `switch_${endpoint}` : "switch",
                     mockProperties: [{property: property, value: null}],
@@ -593,7 +593,7 @@ export class HomeAssistant extends Extension {
                 const temperature = (firstExpose as zhc.Climate).features.find((f) => f.name === "local_temperature");
                 assert(temperature, "No temperature found");
 
-                const discoveryEntry: DiscoveryEntry = {
+                Entry: DiscoveryEntry = {
                     type: "climate",
                     object_id: endpoint ? `climate_${endpoint}` : "climate",
                     mockProperties: [],
@@ -676,7 +676,7 @@ export class HomeAssistant extends Extension {
                     .filter(isNumericExpose)
                     .find((f) => f.name === "local_temperature_calibration");
                 if (tempCalibration) {
-                    const discoveryEntry: DiscoveryEntry = {
+                    Entry: DiscoveryEntry = {
                         type: "number",
                         object_id: endpoint ? `${tempCalibration.name}_${endpoint}` : `${tempCalibration.name}`,
                         mockProperties: [{property: tempCalibration.property, value: null}],
@@ -703,7 +703,7 @@ export class HomeAssistant extends Extension {
 
                 const piHeatingDemand = (firstExpose as zhc.Climate).features.filter(isNumericExpose).find((f) => f.name === "pi_heating_demand");
                 if (piHeatingDemand) {
-                    const discoveryEntry: DiscoveryEntry = {
+                    Entry: DiscoveryEntry = {
                         type: "sensor",
                         object_id: endpoint ? /* v8 ignore next */ `${piHeatingDemand.name}_${endpoint}` : `${piHeatingDemand.name}`,
                         mockProperties: [{property: piHeatingDemand.property, value: null}],
@@ -725,7 +725,7 @@ export class HomeAssistant extends Extension {
             case "lock": {
                 const state = (firstExpose as zhc.Lock).features.filter(isBinaryExpose).find((f) => f.name === "state");
                 assert(state?.name === "state", "Lock expose must have a 'state'");
-                const discoveryEntry: DiscoveryEntry = {
+                Entry: DiscoveryEntry = {
                     type: "lock",
                     /* v8 ignore next */
                     object_id: endpoint ? `lock_${endpoint}` : "lock",
@@ -761,7 +761,7 @@ export class HomeAssistant extends Extension {
                     .find((e) => ["motor_state", "moving"].includes(e.name) && e.access === ACCESS_STATE);
                 const running = allExposes?.filter(isBinaryExpose)?.find((e) => e.name === "running");
 
-                const discoveryEntry: DiscoveryEntry = {
+                Entry: DiscoveryEntry = {
                     type: "cover",
                     mockProperties: [{property: state.property, value: null}],
                     object_id: endpoint ? `cover_${endpoint}` : "cover",
@@ -834,7 +834,7 @@ export class HomeAssistant extends Extension {
             }
             case "fan": {
                 assert(!endpoint, "Endpoint not supported for fan type");
-                const discoveryEntry: DiscoveryEntry = {
+                Entry: DiscoveryEntry = {
                     type: "fan",
                     object_id: "fan",
                     mockProperties: [{property: "fan_state", value: null}],
@@ -2153,10 +2153,4 @@ export class HomeAssistant extends Extension {
 
 export default HomeAssistant;
 
-// --- Injected device_class override logic for 'contact' sensors ---
-if (expose.property === 'contact' && isBinaryExpose(expose)) {
-    const customClass = device.definition?.meta?.device_class || device.meta?.device_class;
-    if (customClass) {
-        discoveryPayload.device_class = customClass;
-    }
-}
+
