@@ -492,7 +492,7 @@ export class HomeAssistant extends Extension {
                         .map((e) => [e.features.findIndex((ee) => ee.name === "color_xy"), e.features.findIndex((ee) => ee.name === "color_hs")])
                         .filter((d) => d[0] !== -1 && d[1] !== -1 && d[1] < d[0]).length !== 0;
 
-                const discoveryconst discoveryEntry: DiscoveryEntry = {
+               const discoveryEntry: DiscoveryEntry = {
                     type: "light",
                     object_id: endpoint ? `light_${endpoint}` : "light",
                     mockProperties: [{property: state.property, value: null}],
@@ -928,7 +928,7 @@ export class HomeAssistant extends Extension {
                  */
                 assertBinaryExpose(firstExpose);
                 if (firstExpose.access & ACCESS_SET) {
-                    const discoveryconst discoveryEntry: DiscoveryEntry = {
+                   const discoveryEntry: DiscoveryEntry = {
                         type: "switch",
                         mockProperties: [{property: firstExpose.property, value: null}],
                         object_id: endpoint ? `switch_${firstExpose.name}_${endpoint}` : `switch_${firstExpose.name}`,
@@ -959,7 +959,7 @@ export class HomeAssistant extends Extension {
                             device?.meta?.device_class;
                     }
 
-                    const discoveryconst discoveryEntry: DiscoveryEntry = {
+                   const discoveryEntry: DiscoveryEntry = {
                         type: "binary_sensor",
                         object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                         mockProperties: [{property: firstExpose.property, value: null}],
@@ -985,7 +985,7 @@ export class HomeAssistant extends Extension {
                  * If numeric attribute has SET access then expose as SELECT entity.
                  */
                 if (allowsSet) {
-                    const discoveryconst discoveryEntry: DiscoveryEntry = {
+                   const discoveryEntry: DiscoveryEntry = {
                         type: "number",
                         object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                         mockProperties: [{property: firstExpose.property, value: null}],
@@ -1036,7 +1036,7 @@ export class HomeAssistant extends Extension {
                     key = "voc_parts";
                 }
 
-                const discoveryconst discoveryEntry: DiscoveryEntry = {
+               const discoveryEntry: DiscoveryEntry = {
                     type: "sensor",
                     object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                     mockProperties: [{property: firstExpose.property, value: null}],
