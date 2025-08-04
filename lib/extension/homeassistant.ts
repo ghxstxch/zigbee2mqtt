@@ -492,7 +492,7 @@ export class HomeAssistant extends Extension {
                         .map((e) => [e.features.findIndex((ee) => ee.name === "color_xy"), e.features.findIndex((ee) => ee.name === "color_hs")])
                         .filter((d) => d[0] !== -1 && d[1] !== -1 && d[1] < d[0]).length !== 0;
 
-                const discoveryEntry: DiscoveryEntry = {
+                const discoveryconst discoveryEntry: DiscoveryEntry = {
                     type: "light",
                     object_id: endpoint ? `light_${endpoint}` : "light",
                     mockProperties: [{property: state.property, value: null}],
@@ -554,7 +554,7 @@ export class HomeAssistant extends Extension {
                 const state = (firstExpose as zhc.Switch).features.filter(isBinaryExpose).find((f) => f.name === "state");
                 assert(state, `Switch expose must have a 'state'`);
                 const property = getProperty(state);
-                Entry: DiscoveryEntry = {
+                const discoveryEntry: DiscoveryEntry = {
                     type: "switch",
                     object_id: endpoint ? `switch_${endpoint}` : "switch",
                     mockProperties: [{property: property, value: null}],
@@ -593,7 +593,7 @@ export class HomeAssistant extends Extension {
                 const temperature = (firstExpose as zhc.Climate).features.find((f) => f.name === "local_temperature");
                 assert(temperature, "No temperature found");
 
-                Entry: DiscoveryEntry = {
+                const discoveryEntry: DiscoveryEntry = {
                     type: "climate",
                     object_id: endpoint ? `climate_${endpoint}` : "climate",
                     mockProperties: [],
@@ -676,7 +676,7 @@ export class HomeAssistant extends Extension {
                     .filter(isNumericExpose)
                     .find((f) => f.name === "local_temperature_calibration");
                 if (tempCalibration) {
-                    Entry: DiscoveryEntry = {
+                    const discoveryEntry: DiscoveryEntry = {
                         type: "number",
                         object_id: endpoint ? `${tempCalibration.name}_${endpoint}` : `${tempCalibration.name}`,
                         mockProperties: [{property: tempCalibration.property, value: null}],
@@ -703,7 +703,7 @@ export class HomeAssistant extends Extension {
 
                 const piHeatingDemand = (firstExpose as zhc.Climate).features.filter(isNumericExpose).find((f) => f.name === "pi_heating_demand");
                 if (piHeatingDemand) {
-                    Entry: DiscoveryEntry = {
+                    const discoveryEntry: DiscoveryEntry = {
                         type: "sensor",
                         object_id: endpoint ? /* v8 ignore next */ `${piHeatingDemand.name}_${endpoint}` : `${piHeatingDemand.name}`,
                         mockProperties: [{property: piHeatingDemand.property, value: null}],
@@ -725,7 +725,7 @@ export class HomeAssistant extends Extension {
             case "lock": {
                 const state = (firstExpose as zhc.Lock).features.filter(isBinaryExpose).find((f) => f.name === "state");
                 assert(state?.name === "state", "Lock expose must have a 'state'");
-                Entry: DiscoveryEntry = {
+                const discoveryEntry: DiscoveryEntry = {
                     type: "lock",
                     /* v8 ignore next */
                     object_id: endpoint ? `lock_${endpoint}` : "lock",
@@ -761,7 +761,7 @@ export class HomeAssistant extends Extension {
                     .find((e) => ["motor_state", "moving"].includes(e.name) && e.access === ACCESS_STATE);
                 const running = allExposes?.filter(isBinaryExpose)?.find((e) => e.name === "running");
 
-                Entry: DiscoveryEntry = {
+                const discoveryEntry: DiscoveryEntry = {
                     type: "cover",
                     mockProperties: [{property: state.property, value: null}],
                     object_id: endpoint ? `cover_${endpoint}` : "cover",
@@ -834,7 +834,7 @@ export class HomeAssistant extends Extension {
             }
             case "fan": {
                 assert(!endpoint, "Endpoint not supported for fan type");
-                Entry: DiscoveryEntry = {
+                const discoveryEntry: DiscoveryEntry = {
                     type: "fan",
                     object_id: "fan",
                     mockProperties: [{property: "fan_state", value: null}],
@@ -928,7 +928,7 @@ export class HomeAssistant extends Extension {
                  */
                 assertBinaryExpose(firstExpose);
                 if (firstExpose.access & ACCESS_SET) {
-                    const discoveryEntry: DiscoveryEntry = {
+                    const discoveryconst discoveryEntry: DiscoveryEntry = {
                         type: "switch",
                         mockProperties: [{property: firstExpose.property, value: null}],
                         object_id: endpoint ? `switch_${firstExpose.name}_${endpoint}` : `switch_${firstExpose.name}`,
@@ -959,7 +959,7 @@ export class HomeAssistant extends Extension {
                             device?.meta?.device_class;
                     }
 
-                    const discoveryEntry: DiscoveryEntry = {
+                    const discoveryconst discoveryEntry: DiscoveryEntry = {
                         type: "binary_sensor",
                         object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                         mockProperties: [{property: firstExpose.property, value: null}],
@@ -985,7 +985,7 @@ export class HomeAssistant extends Extension {
                  * If numeric attribute has SET access then expose as SELECT entity.
                  */
                 if (allowsSet) {
-                    const discoveryEntry: DiscoveryEntry = {
+                    const discoveryconst discoveryEntry: DiscoveryEntry = {
                         type: "number",
                         object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                         mockProperties: [{property: firstExpose.property, value: null}],
@@ -1036,7 +1036,7 @@ export class HomeAssistant extends Extension {
                     key = "voc_parts";
                 }
 
-                const discoveryEntry: DiscoveryEntry = {
+                const discoveryconst discoveryEntry: DiscoveryEntry = {
                     type: "sensor",
                     object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
                     mockProperties: [{property: firstExpose.property, value: null}],
@@ -1426,7 +1426,7 @@ export class HomeAssistant extends Extension {
         // Discover scenes.
         for (const endpointOrGroup of isDevice ? entity.zh.endpoints : isGroup ? [entity.zh] : []) {
             for (const scene of utils.getScenes(endpointOrGroup)) {
-                const sceneEntry: DiscoveryEntry = {
+                const sceneconst discoveryEntry: DiscoveryEntry = {
                     type: "scene",
                     object_id: `scene_${scene.id}`,
                     mockProperties: [],
