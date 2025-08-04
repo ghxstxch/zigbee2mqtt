@@ -949,6 +949,16 @@ export class HomeAssistant extends Extension {
 
                     discoveryEntries.push(discoveryEntry);
                 } else {
+                    const isContact = firstExpose.property === "contact";
+
+                    // Check for custom device class override
+                    let customDeviceClass: string | undefined;
+                    if (isContact) {
+                        customDeviceClass =
+                            device?.definition?.meta?.device_class ||
+                            device?.meta?.device_class;
+                    }
+
                     const discoveryEntry: DiscoveryEntry = {
                         type: "binary_sensor",
                         object_id: endpoint ? `${firstExpose.name}_${endpoint}` : `${firstExpose.name}`,
@@ -959,6 +969,7 @@ export class HomeAssistant extends Extension {
                             payload_on: firstExpose.value_on,
                             payload_off: firstExpose.value_off,
                             ...(BINARY_DISCOVERY_LOOKUP[firstExpose.name] || {}),
+                            ...(customDeviceClass ? { device_class: customDeviceClass } : {}),
                         },
                     };
 
