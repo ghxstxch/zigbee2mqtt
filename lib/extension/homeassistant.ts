@@ -64,7 +64,7 @@ const BINARY_DISCOVERY_LOOKUP: {[s: string]: KeyValue} = {
     child_lock: {entity_category: "config", icon: "mdi:account-lock"},
     color_sync: {entity_category: "config", icon: "mdi:sync-circle"},
     consumer_connected: {device_class: "plug"},
-    contact: {device_class: "door"},
+    contact: {},  // Device class will be assigned dynamically based on meta,
     garage_door_contact: {device_class: "garage_door", payload_on: false, payload_off: true},
     eco_mode: {entity_category: "config", icon: "mdi:leaf"},
     expose_pin: {entity_category: "config", icon: "mdi:pin"},
@@ -2141,3 +2141,11 @@ export class HomeAssistant extends Extension {
 }
 
 export default HomeAssistant;
+
+// --- Injected device_class override logic for 'contact' sensors ---
+if (expose.property === 'contact' && isBinaryExpose(expose)) {
+    const customClass = device.definition?.meta?.device_class || device.meta?.device_class;
+    if (customClass) {
+        discoveryPayload.device_class = customClass;
+    }
+}
