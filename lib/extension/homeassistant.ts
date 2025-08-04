@@ -474,6 +474,11 @@ export class HomeAssistant extends Extension {
         assert(entityType === "device" || GROUP_SUPPORTED_TYPES.includes(firstExpose.type), `Unsupported expose type ${firstExpose.type} for group`);
 
         const discoveryEntries: DiscoveryEntry[] = [];
+        const device = {
+            definition,
+            meta: definition.meta,
+        };
+
         const endpoint = entityType === "device" ? exposes[0].endpoint : undefined;
         const getProperty = (feature: zhc.Feature): string => (entityType === "group" ? featurePropertyWithoutEndpoint(feature) : feature.property);
 
