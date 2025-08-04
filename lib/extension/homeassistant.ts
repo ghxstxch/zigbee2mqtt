@@ -1426,7 +1426,7 @@ export class HomeAssistant extends Extension {
         // Discover scenes.
         for (const endpointOrGroup of isDevice ? entity.zh.endpoints : isGroup ? [entity.zh] : []) {
             for (const scene of utils.getScenes(endpointOrGroup)) {
-                const sceneconst discoveryEntry: DiscoveryEntry = {
+                const sceneEntry: DiscoveryEntry = {
                     type: "scene",
                     object_id: `scene_${scene.id}`,
                     mockProperties: [],
