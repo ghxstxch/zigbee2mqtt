@@ -1,1 +1,1 @@
-// Formatted and linted content goes here
+// Your formatted content here
