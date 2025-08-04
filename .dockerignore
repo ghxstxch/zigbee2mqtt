@@ -8,7 +8,6 @@
 .travis*
 .travis.yml
 README.md
-docker/Dockerfile*
 images
 node_modules
 scripts
